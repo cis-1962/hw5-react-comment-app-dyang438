@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, MouseEvent } from 'react';
+import Button from '@mui/material/Button';
 
 // Types for the props
 type CommentInputProps = {
@@ -12,19 +13,22 @@ type CommentInputProps = {
 const CommentInput: React.FC<CommentInputProps> = ({ addComment, nameText, setNameText, commentText, setCommentText }) => {
   return (
     <div className="addCommentBlurb">
+    
       <input
+        className='Input'
         type="text"
         value={nameText}
         onChange={(e: ChangeEvent<HTMLInputElement>) => setNameText(e.target.value)}
         placeholder="Your name"
       />
       <input
+        className='Input'
         type="text"
         value={commentText}
         onChange={(e: ChangeEvent<HTMLInputElement>) => setCommentText(e.target.value)}
         placeholder="Your comment"
       />
-      <button onClick={addComment}>Add Comment</button>
+      <Button variant="contained" onClick={addComment}>Add Comment</Button>
     </div>
   );
 };
@@ -44,9 +48,9 @@ type ReplyShowHideButtonProps = {
 const ReplyShowHideButton: React.FC<ReplyShowHideButtonProps> = ({showReply, setShowReply}) => {
   return (
     <div>
-      <button onClick={() => setShowReply(!showReply)}>
+      <Button variant="contained" onClick={() => setShowReply(!showReply)}>
         {showReply ? 'Hide Replies' : 'Show Replies'}
-      </button>
+      </Button>
     </div>
   );
 };
@@ -55,9 +59,9 @@ const UpvoteDownvoteCounter: React.FC = () => {
   const [count, setCount] = useState(0);
   return (
     <div className="card">
-      <button className="upvote" onClick={() => setCount(count + 1)}>+</button>
+      <Button variant="contained" className="upvote" onClick={() => setCount(count + 1)}>+</Button>
       <div>{count}</div>
-      <button className="downvote" onClick={() => setCount(count - 1)}>-</button>
+      <Button variant="contained" className="downvote" onClick={() => setCount(count - 1)}>-</Button>
     </div>
   );
 };
@@ -67,8 +71,8 @@ const SingleComment: React.FC<SingleCommentProps> = ({nameText, commentText , de
   return (
     <>
       <div className="singleComment">
-        <div>{nameText}</div>
-        <span>{commentText}</span>
+        <div className="commentWords">{nameText}</div>
+        <span className="commentWords">{commentText}</span>
         <UpvoteDownvoteCounter />
       </div>
       <div>
@@ -103,9 +107,6 @@ const CommentParent: React.FC<CommentParentProps> = ({showReply, depth}) => {
 
   return (
     <>
-      <div className="title">
-        COMMENT PARENT:
-      </div>
       <div className="input">
         {showReply && < CommentInput
           addComment={() => addComment()}
@@ -115,7 +116,7 @@ const CommentParent: React.FC<CommentParentProps> = ({showReply, depth}) => {
           setCommentText={setCommentText}
         />}
       </div>
-      <div className="commentBoard">
+      <div className="commentBoard" id={(depth+1).toString()}>
         {commentDisplay.map((nameCommentTuple, index) => (
           <SingleComment key={index} nameText={nameCommentTuple[0]} commentText={nameCommentTuple[1]} depth={depth} />
         ))}
